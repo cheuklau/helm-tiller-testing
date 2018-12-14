@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Config
+preferences: {}
+
+# Define the cluster
+clusters:
+- cluster:
+    certificate-authority-data: <CLUSTER CERTIFICATE> (unchanged)
+    server: <CLUSTER IP> (unchanged)
+  name: <CLUSTER NAME> (unchanged)
+
+# Define the user
+users:
+- name: <USER NAME> (unchanged)
+  user:
+    client-certificate-data: <USER CERTIFICATE> (unchanged)
+    client-key-data: <USER KEY> (unchanged)
+- name: helm-tiller-context
+  user:
+    as-user-extra: {}
+    client-key-data: PLACE CERTIFICATE HERE
+    token: PLACE USER TOKEN HERE
+
+# Define the context: linking a user to a cluster
+contexts:
+- context:
+    cluster: <CLUSTER NAME> (unchanged)
+    user: <USER NAME> (unchanged)
+  name: original-context
+- context:
+    cluster: <CLUSTER NAME> (unchanged)
+    namespace: tiller-world
+    user: tiller
+  name: helm-tiller-context
+
+# Define current context
+current-context: helm-tiller-context

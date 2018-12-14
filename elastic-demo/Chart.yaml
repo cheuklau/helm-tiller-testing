@@ -1,0 +1,11 @@
+apiVersion: v1
+appVersion: "1.0"
+description: Elastic stack monitoring of a sample microservice
+name: elastic-demo
+version: 0.1.0
+sources:
+  - https://github.com/cheuklau/elastic-stack-logging
+maintainers:
+  - name: Cheuk Lau
+    email: cheuk.lau@aggienetwork.com
+tillerVersion: ">=2.11.0"

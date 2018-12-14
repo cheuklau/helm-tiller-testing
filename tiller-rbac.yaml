@@ -1,0 +1,51 @@
+# Create role for Tiller to access default namespace
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: tiller-role-default
+  namespace: default
+rules:
+- apiGroups: ["", "batch", "extensions", "apps"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+# Create rolebinding for Tiller to access default namespace
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: tiller-binding-default
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: tiller-sa
+  namespace: tiller-ns
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tiller-role-default
+---
+# Create role for Tiller to access its own namespace
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: tiller-role-tiller-ns
+  namespace: tiller-ns
+rules:
+- apiGroups: ["", "batch", "extensions", "apps"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+# Create rolebinding for Tiller to access its own namespace
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: tiller-binding-tiller-ns
+  namespace: tiller-ns
+subjects:
+- kind: ServiceAccount
+  name: tiller-sa
+  namespace: tiller-ns
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: tiller-role-tiller-ns
